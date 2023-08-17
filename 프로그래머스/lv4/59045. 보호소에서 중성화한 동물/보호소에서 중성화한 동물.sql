@@ -6,5 +6,4 @@ where (a.sex_upon_intake not like 'Spayed %' and
        a.sex_upon_intake not like 'Neutered %') and
       (b.sex_upon_outcome like 'Spayed %' or 
        b.sex_upon_outcome like 'Neutered%')
-      
-
+order by a.animal_id
