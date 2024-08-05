@@ -30,12 +30,32 @@ public class Main {
 			int a_sum = a_card[1] * 1 + a_card[2] * 1000 + a_card[3] * 1000000 + a_card[4] * 1000000000;
 			int b_sum = b_card[1] * 1 + b_card[2] * 1000 + b_card[3] * 1000000 + b_card[4] * 1000000000;
 
-			if (a_sum > b_sum)
+			if (a_card[4] > b_card[4]) {
 				System.out.println("A");
-			else if (b_sum > a_sum)
+			} else if (a_card[4] < b_card[4]) {
 				System.out.println("B");
-			else
-				System.out.println("D");
+			} else {
+				if (a_card[3] > b_card[3]) {
+					System.out.println("A");
+				} else if (a_card[3] < b_card[3]) {
+					System.out.println("B");
+				} else {
+					if (a_card[2] > b_card[2]) {
+						System.out.println("A");
+					} else if (a_card[2] < b_card[2]) {
+						System.out.println("B");
+					} else {
+						if (a_card[1] > b_card[1]) {
+							System.out.println("A");
+						} else if (a_card[1] < b_card[1]) {
+							System.out.println("B");
+						} else {
+							System.out.println("D");
+						}
+					}
+
+				}
+			}
 		}
 
 	}
