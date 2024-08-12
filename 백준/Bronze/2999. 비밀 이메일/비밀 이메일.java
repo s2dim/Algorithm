@@ -1,14 +1,18 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		Scanner sc = new Scanner(System.in);
-		
-		String str = sc.next();
-		char [] charArr = str.toCharArray();
-		int len = charArr.length;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        String str = br.readLine();
+        char[] charArr = str.toCharArray();
+        int len = charArr.length;
+  
 		
 		int r = 0;
 		int c = 1;
