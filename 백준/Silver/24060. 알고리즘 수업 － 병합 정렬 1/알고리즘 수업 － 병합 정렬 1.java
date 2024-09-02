@@ -67,6 +67,7 @@ public class Main {
 			
 			if (cnt == k) {
 				ans = arr[i];
+                break;
 			}
 	
 		}
