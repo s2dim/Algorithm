@@ -1,14 +1,10 @@
-
 import java.util.*;
 
 public class Main {
 
 	static int N, M, V;
 	static int[][] arr;
-	static Stack<Integer> stack;
-	static Queue<Integer> queue;
 	static boolean[] visited;
-	static StringBuilder sb = new StringBuilder();
 
 	public static void main(String[] args) {
 
@@ -34,19 +30,15 @@ public class Main {
 
 		// 방문 배열 생성
 		visited = new boolean[N + 1];
-		stack = new Stack<>();
-		queue = new LinkedList<>();
-
 		DFS();
-		System.out.println(sb);
-		sb.setLength(0);
 		visited = new boolean[N + 1];
 		BFS();
-		System.out.println(sb);
 
 	}
 
 	static void DFS() {
+		Stack<Integer> stack = new Stack<>();
+		StringBuilder sb = new StringBuilder();
 		stack.push(V);
 
 		while (!stack.isEmpty()) {
@@ -62,9 +54,13 @@ public class Main {
 				}
 			}
 		}
+
+		System.out.println(sb);
 	}
 
 	static void BFS() {
+		Queue<Integer> queue = new LinkedList<>();
+		StringBuilder sb = new StringBuilder();
 		queue.add(V);
 		visited[V] = true;
 		sb.append(V + " ");
@@ -80,5 +76,7 @@ public class Main {
 				}
 			}
 		}
+
+		System.out.println(sb);
 	}
 }
