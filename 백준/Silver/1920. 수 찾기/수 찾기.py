@@ -1,5 +1,5 @@
+
 import sys
-import math
 
 sys.setrecursionlimit(100000)
 
@@ -13,31 +13,17 @@ Narr.sort()
 
 def bs(arr, x, start, end):
     
-    if start > end:
-        print("0")
-        return
-    
-    if start == end:
-        if arr[start] == x:
-            print("1")
-        else:
-            print("0")
-        return
-
-    else:
+    while start <= end:
         mid = (start + end) // 2
-        if x > arr[mid]:
+        
+        if arr[mid] == x:
+            return 1
+        elif arr[mid] < x:
             start = mid + 1
-            # print(f"if_1 배열 : {arr} x : {x}, start : {start} end : {end}")
-            bs(arr, x, start, end)
-
-        elif x < arr[mid]:
+        else:
             end = mid - 1
-            # print(f"if_2 배열 : {arr} x : {x}, start : {start} end : {end}")
-            bs(arr, x, start, end)
-        elif x == arr[mid]:
-            print("1")
+    return 0
 
 
 for i in Marr:
-    bs(Narr, i, 0, n - 1)
+    print(bs(Narr, i, 0, n - 1))
