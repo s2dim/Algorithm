@@ -18,8 +18,6 @@ def solution(jobs):
             heapq.heappush(h, (a[1], a))
                      
         if h:
-            heapq.heapify(h)
-            
             _, row = heapq.heappop(h)
             cnt += 1
             request, worktime = row
