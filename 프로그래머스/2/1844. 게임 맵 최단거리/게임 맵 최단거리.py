@@ -2,38 +2,37 @@ from collections import deque
 
 def solution(maps):
     
-    dx = [0, 0, 1, -1]
-    dy = [1, -1, 0 ,0]
+    dx = [0, 0, -1, 1]
+    dy = [1, -1, 0, 0]
     
     n = len(maps)
     m = len(maps[0])
-  
-    arr = [[0] * (m+1) for _ in range(n+1)] # 좌표 맞춘 배열
+    
+    arr = [[0] * (m+1) for _ in range(n+1)]
     visited = [[0] * (m+1) for _ in range(n+1)]
     
-    # 좌표에 맞춰 다시 담기
     for i in range(n):
         for j in range(m):
             arr[i+1][j+1] = maps[i][j]
-
     
-    queue = deque([(1, 1)])
+
+    queue = deque([[1, 1]])
     visited[1][1] = 1
     
     while queue:
-        curr_x, curr_y = queue.popleft()
+        currx, curry = queue.popleft()
         
-        if curr_x == n and curr_y == m:
-            return visited[curr_x][curr_y]
+        if currx == n and curry == m:
+            return visited[currx][curry]
         
         for d in range(4):
-            nx = curr_x + dx[d]
-            ny = curr_y + dy[d]
-
-            if (nx > 0 and nx <= n and ny > 0 and ny <= m 
-                and arr[nx][ny] == 1 and visited[nx][ny] == 0):
+            nx = currx + dx[d]
+            ny = curry + dy[d]
+            
+            if (nx > 0 and nx <= n and ny > 0 and ny <= m and
+                arr[nx][ny] == 1 and visited[nx][ny] == 0):
                 queue.append([nx, ny])
-                visited[nx][ny] = visited[curr_x][curr_y] + 1
+                visited[nx][ny] = visited[currx][curry] + 1
+        
 
-    
     return -1
