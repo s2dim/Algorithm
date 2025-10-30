@@ -1,48 +1,27 @@
-from collections import deque
+from collections import defaultdict
 def solution(tickets):
-    # 숫자로 라벨링
-    mapping = []
+    # 따라적기
     
-    for i in tickets:
-        for j in i:
-            mapping.append(j)
-            
-    mapping = list(set(mapping))
-    mapping.sort()
-    mapping = dict(enumerate(mapping))
-    mapping_reverse = {v:k for k,v in mapping.items()}
+    t_dict = defaultdict(list)
     
-    n = len(mapping)
-    graph = [[] for _ in range(n)]
-    
-    for i in tickets:
-        graph[mapping_reverse.get(i[0])].append(mapping_reverse.get(i[1]))
-    
-    for i in graph:
-        i.sort(reverse=True)
+    for s, e in tickets:
+        t_dict[s].append(e)
         
-    visited = [0] * n
-    
-    for i in range(n):
-        visited[i] = len(graph[i])
+    for t_key in t_dict.keys():
+        t_dict[t_key].sort(reverse = True)
         
-
-    x = mapping_reverse.get('ICN')
-    stack = [x]
+    print("!!", t_dict)
+    
     answer = []
     
+    stack = ['ICN']
+    
     while stack:
-        cur = stack[-1]
-        if graph[cur]:
-            nxt = graph[cur].pop()
-            stack.append(nxt)
-        else:
+        now = stack[-1]
+        
+        if now not in t_dict or len(t_dict[now]) == 0:
             answer.append(stack.pop())
-    
-    answer.reverse()
-    
-    result = []
-    for i in answer:
-        result.append(mapping.get(i))
-   
-    return result
+        else:
+            stack.append(t_dict[now].pop())
+            
+    return answer[::-1]
