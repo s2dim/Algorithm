@@ -1,8 +1,6 @@
 -- 코드를 입력하세요
-select car_id
-from CAR_RENTAL_COMPANY_CAR
-where car_id in (select car_id
-                from CAR_RENTAL_COMPANY_RENTAL_HISTORY
-                where start_date between '2022-10-01' and '2022-10-31') and
-    car_type = '세단'
-order by car_id desc
+SELECT distinct(c.car_id)
+from car_rental_company_car c
+left join car_rental_company_rental_history h on c.car_id = h.car_id
+where c.car_type = '세단' and start_date >= "2022-10-01" and start_date <= "2022-10-30"
+order by c.car_id desc
