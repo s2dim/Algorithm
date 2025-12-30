@@ -18,19 +18,21 @@ def solution(key, lock):
         rotate = list(map(list, zip(*rotate[::-1])))
         for w in range(x-m+1):
             for h in range(x-m+1):
+                ok = True
                 cnt = 0
+
                 for i in range(m):
                     for j in range(m):
-                        if rotate[i][j] == 0 and arr[i+w][j+h] != 0:
-                            continue
-                        elif rotate[i][j] == 1 and arr[i+w][j+h] != 1:
-                            if arr[i+w][j+h] == 0:
-                                cnt += 1
-                            continue
-                        else:
+                        if rotate[i][j] == 1 and arr[i+w][j+h] == 1:
+                            ok = False
                             break
 
-                if zero == cnt:
+                        if rotate[i][j] == 1 and arr[i+w][j+h] == 0:
+                            cnt += 1
+                    if not ok:
+                        break
+
+                if ok and cnt == zero:
                     return True
 
 
