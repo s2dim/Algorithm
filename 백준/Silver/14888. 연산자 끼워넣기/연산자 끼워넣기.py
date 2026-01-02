@@ -1,53 +1,44 @@
-import sys
-from itertools import permutations
+# 이코테 답안
+
 
 n = int(input())
-num = list(map(int, sys.stdin.readline().split()))
-# 0+ 1- 2* 3/
-op = list(map(int, sys.stdin.readline().split()))
 
-def cal(a, b, n):
-    if n == 0:
-        return a + b 
-    elif n == 1:
-        return a - b
-    elif n == 2:
-        return a * b
-    elif n == 3:
-        if a < 0:
-            temp = (a * (-1)) // b
-            return temp * (-1)
-        else:
-            return a // b
-    
-lst = [i for i, cnt in enumerate(op) for _ in range(cnt)]
-lst_cnt = list(set(list(permutations(lst, n-1))))
+data = list(map(int, input().split()))
 
-max_ = -int(1e9)
-for i in lst_cnt:
-    a = num[0]
-    state = True
-    for j in range(n-1):
-        if (i[j] == 3 and num[j+1] == 0):
-            state = False
-            break
-        else:
-            a =  cal(a, num[j+1], i[j])
-    max_ = max(a, max_)
+add, sub, mul, div = map(int, input().split())
 
+min_value = int(1e9)
+max_value = -int(1e9)
 
-min_ = int(1e9)
-for i in lst_cnt:
-    a = num[0]
-    state = True
-    for j in range(n-1):
-        if (i[j] == 3 and num[j+1] == 0):
-            state = False
-            break
-        else:
-            a =  cal(a, num[j+1], i[j])
-    if state:
-        min_ = min(a, min_)
+def dfs(i, now):
+    global min_value, max_value, add, sub, mul, div
 
-print(max_)
-print(min_)
+    if i == n:
+        min_value = min(min_value, now)
+        max_value = max(max_value, now)
+
+    else:
+        if add > 0:
+            add -= 1
+            dfs(i + 1, now + data[i])
+            add += 1
+        
+        if sub > 0:
+            sub -= 1
+            dfs(i + 1, now - data[i])
+            sub += 1
+
+        if mul > 0:
+            mul -= 1
+            dfs(i + 1, now * data[i])
+            mul += 1
+
+        if div > 0:
+            div -= 1
+            dfs(i + 1, int(now / data[i]))
+            div += 1
+
+dfs(1, data[0])
+
+print(max_value)
+print(min_value)
