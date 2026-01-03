@@ -3,43 +3,38 @@ from itertools import permutations
 
 k = int(input())
 lst = list(sys.stdin.readline().split())
-num = [i for i in range(0, 10)]
+num = [1] * (10)
 
-min_ = int(1e10)
-max_ = -int(1e10)
+min_ = None
+max_ = None
 
 def sign(a, b, sig):
     if sig == '>':
-        if a > b:
-            return 1
-        else:
-            return 0
-    elif sig == '<':
-        if a < b:
-            return 1
-        else:
-            return 0
-        
-per = list(permutations(num, k+1))
+        return a > b
+    else:  # '<'
+        return a < b
 
-for i in per:
-    now = i[0]
-    state = True
-    for j in range(k):
-        temp = sign(now, i[j+1], lst[j])
-        if temp == 0:
-            state = False
-            break
-        else:
-            now = i[j+1]
-    if state:
-        comp = int(''.join([str(n) for n in i]))
+def dfs(i, now):
+    global min_, max_
 
-        min_ = min(min_, comp)
-        max_ = max(max_, comp)
+    # 숫자는 k+1자리
+    if i == k + 1:
+        if min_ is None or now < min_:
+            min_ = now
+        if max_ is None or now > max_:
+            max_ = now
+        return
 
-if len(str(min_)) < k+1:
-    min_ = '0' + str(min_)
+    for n in range(10):
+        if num[n] == 1:
+            # 첫 자리면 조건 없이 선택 가능
+            # 그 외에는 직전 자리(now[-1])와 n이 lst[i-1]를 만족해야 함
+            if i == 0 or sign(int(now[-1]), n, lst[i - 1]):
+                num[n] = 0
+                dfs(i + 1, now + str(n))
+                num[n] = 1
+
+dfs(0, "")
 
 print(max_)
 print(min_)
