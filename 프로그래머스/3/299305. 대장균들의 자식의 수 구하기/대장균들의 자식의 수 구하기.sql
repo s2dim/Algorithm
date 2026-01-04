@@ -1,16 +1,10 @@
 -- 코드를 작성해주세요
-select d.id, ifnull(c.count, 0) as child_count
-from ecoli_data d
-left join (select parent_id, count(parent_id) as count
-        from ecoli_data
-        where parent_id is not null
-        group by parent_id) c
-on d.id = c.parent_id
 
+select p.id as id, sum(case
+                        when c.parent_id > 0 then 1
+                        else 0
+                      end) as child_count
+from ecoli_data p left join ecoli_data c on p.id = c.parent_id
+group by id
+order by id
 
-
-
-# select parent_id, count(parent_id) as count
-# from ecoli_data
-# where parent_id is not null
-# group by parent_id
