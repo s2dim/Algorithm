@@ -1,23 +1,9 @@
 -- 코드를 작성해주세요
 
-# select fish_type, max(length)
-# from fish_info
-# group by fish_type
-
-# select id, mx.fish_type, length
-# from fish_info i
-# join (select fish_type, max(length) as max
-#     from fish_info
-#     group by fish_type) mx
-# on i.fish_type = mx.fish_type and i.length = mx.max
-
-select ifo.id, n.fish_name, ifo.length
-from fish_name_info n
-join (select id, mx.fish_type, length
-        from fish_info i
-        join (select fish_type, max(length) as max
-            from fish_info
-            group by fish_type) mx
-        on i.fish_type = mx.fish_type and i.length = mx.max) ifo
-on n.fish_type = ifo.fish_type
+select i.id, n.fish_name, i.length
+from fish_info i join fish_name_info n on i.fish_type = n.fish_type
+where (i.fish_type, i.length) in (select fish_type, max(length)
+                    from fish_info
+                    where length is not null
+                    group by fish_type)
 order by id
