@@ -1,5 +1,5 @@
 -- 코드를 입력하세요
-SELECT *
+select *
 from places
 where host_id in (SELECT host_id
                 from places
