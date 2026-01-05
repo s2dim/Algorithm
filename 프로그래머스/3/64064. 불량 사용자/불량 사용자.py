@@ -18,7 +18,7 @@ def solution(user_id, banned_id):
                     return False
             return True
     
-    lst = []
+    set_ = set()
     for i in list(permutations(user_id, len(banned_id))):
         cnt = 0
         for j in range(len(banned_id)):
@@ -27,22 +27,12 @@ def solution(user_id, banned_id):
             else:
                 cnt += 1
         if cnt == len(banned_id):
-            temp = [k for k in i]
-            lst.append(sorted(temp))
+            temp = set()
+            for k in i:
+                temp.add(k)
+            set_.add(frozenset(temp))
     
-    lst.sort()
-    cnt = 1
-    idx = 1
-    prev = lst[0]
-    while idx < len(lst):
-        
-        if prev != lst[idx]:
-            prev = lst[idx]
-            cnt += 1
-            idx += 1
-        else:
-            idx += 1
-    return cnt
+    return len(set_)
 
 '''
 - 아이디 당 최소 하나 이상 *
