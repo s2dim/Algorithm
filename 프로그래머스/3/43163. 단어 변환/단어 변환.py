@@ -2,32 +2,43 @@ from collections import deque
 
 def solution(begin, target, words):
     
-    # 다른 개수
-    def diff(x1, x2):
+    def diff(a, b):
+        a = [i for i in a]
+        b = [i for i in b]
+        
         cnt = 0
-        for i in range(len(x1)):
-            if x1[i] != x2[i]:
-                cnt += 1             
-        return cnt
+        for i in range(len(a)):
+            if a[i] != b[i]:
+                cnt += 1
+            
+            if cnt > 1:
+                break
+        
+        if cnt == 1:
+            return True
+        else:
+            return False
     
     if target not in words:
-        return 0
+        return 0 
     
-    visited = [False] * len(words)
     queue = deque([(0, begin)])
     
     while queue:
-        dist, now = queue.popleft()
-
-        if diff(now, target) == 1:
-            dist += 1
+        dist, q = queue.popleft()
+        
+        if q == target:
             return dist
         
-        for i in range(len(words)):
-            if diff(now, words[i]) == 1 and not visited[i]: 
-                cost = dist + 1
-                queue.append((cost, words[i]))
-                visited[i] = True
-            
+        if dist > len(words):
+            return 0
+        
+        for i in words:
+            if diff(q, i):
+                queue.append((dist+1, i))
 
-    return 0
+
+
+'''
+
+'''
