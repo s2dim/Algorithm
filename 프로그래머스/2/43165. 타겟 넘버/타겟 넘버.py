@@ -1,14 +1,23 @@
-def solution(numbers, target):
-    result = 0
-    def dfs(i, now):
-        nonlocal result
+from collections import deque
+
+def solution(numbers, target): # 부호 len(numbers)개
+
+    cnt = 0
+    
+    def dfs(i, a):
+        nonlocal cnt
         if i == len(numbers):
-            if now == target:
-                result += 1
-            return 
+            if a == target:
+                cnt += 1
+            return
         
-        dfs(i+1, now + numbers[i])
-        dfs(i+1, now - numbers[i])
-        
+        dfs(i+1, a + numbers[i])
+        dfs(i+1, a - numbers[i])
+    
     dfs(0, 0)
-    return result
+    return cnt
+
+'''
+numbers 각 인덱스 별로 더하거나 빼기
+
+'''
