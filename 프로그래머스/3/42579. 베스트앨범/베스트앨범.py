@@ -1,59 +1,32 @@
-from collections import defaultdict
+from collections import Counter
+
 def solution(genres, plays):
     
-    genre = set(genres)
-    
-    dic = defaultdict(int)
-    
-    for i in range(len(genres)):
-        dic[genres[i]] += plays[i]
-    
-    dic = dict(sorted(dic.items(), key = lambda item :item[1], reverse=True))
-    
-    # 많이 들은 순으로 정렬
-    idx_dic = {}
-    key = list(dic.keys())
-    for i in range(len(key)):
-        idx_dic[key[i]] = i
-
-    song = defaultdict(list)
-
-    for i in range(len(genres)):
-        song[i].append((idx_dic.get(genres[i]), plays[i]))
-    
-    song = sorted(song.items(), key = lambda item : (item[1][0][0], -item[1][0][1], item[0]))
-    
     answer = []
+    gen = {i:0 for i in genres}
+    temp_cnt = dict(Counter(genres))
     
-    before = None
-    cnt = 1
-
-    for i in song:
-        if i[1][0][0] == before:
-            if cnt < 2:
-                answer.append(i[0])
-
-            cnt += 1
-            
-        elif i[1][0][0] != before:
-            answer.append(i[0])
-            before = i[1][0][0]
-            cnt = 1
-            
-                
+    for i in range(len(plays)):
+        gen[genres[i]] += plays[i]
+    
+    sorted_gen = sorted(gen, key = lambda x:gen[x], reverse=True)
+    
+    for i in sorted_gen:
+        temp = {}
+        for j in range(len(genres)):
+            if genres[j] == i:
+                temp[j] = plays[j]
+        sorted_temp = sorted(temp.items(), key = lambda x:(x[1], -x[0]), reverse=True)
+        
+        for k, v in sorted_temp[:2]:
+            answer.append(k)
     return answer
 
-
 '''
-많이 재생된 장르 (두 개씩) > 장르 내에서 많이 재생된 노래 > 고유번호가 낮은 노래
+장르 별로 가장 많이 재생된 노래 2개씩 모아 출시
+- 장르별 노래 재생 횟수 개산
+- 장르 내에서 가장 많이 재생된 노래 수록 (재생 횟수가 같다면 고유 번호가 낮은 노래 먼저)
 
-고유번호별로 : 장르, plays
-
-1. 장르별로 plays 더함
-2. 장르 -> plays -> 고유번호 순으로 나열
-
-장르 구분-> enumerate
-(장르, pays, 고유번호 순 삽입)
-
-
+genres 먼저 count, 정렬
+각 장르별 재생 횟수 계산
 '''
