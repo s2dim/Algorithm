@@ -1,38 +1,30 @@
 from collections import deque
-
 def solution(maps):
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, 1, -1]
     
-    dx = [0, 0, -1, 1]
-    dy = [1, -1, 0, 0]
+    x = len(maps)
+    y = len(maps[0])
     
-    n = len(maps)
-    m = len(maps[0])
+    visited = [[0] * (y) for _ in range(x)]
     
-    arr = [[0] * (m+1) for _ in range(n+1)]
-    visited = [[0] * (m+1) for _ in range(n+1)]
+    q = deque([(0, 0)])
+    visited[0][0] = 1
     
-    for i in range(n):
-        for j in range(m):
-            arr[i+1][j+1] = maps[i][j]
-    
-
-    queue = deque([[1, 1]])
-    visited[1][1] = 1
-    
-    while queue:
-        currx, curry = queue.popleft()
-        
-        if currx == n and curry == m:
-            return visited[currx][curry]
+    while q:
+        currx, curry = q.popleft()
         
         for d in range(4):
-            nx = currx + dx[d]
-            ny = curry + dy[d]
+            nx = dx[d] + currx
+            ny = dy[d] + curry  
             
-            if (nx > 0 and nx <= n and ny > 0 and ny <= m and
-                arr[nx][ny] == 1 and visited[nx][ny] == 0):
-                queue.append([nx, ny])
+            if nx >= 0 and ny >= 0 and nx < x and ny < y and maps[nx][ny] == 1 and visited[nx][ny] == 0:
+                q.append((nx, ny))
                 visited[nx][ny] = visited[currx][curry] + 1
-        
+    
+    
+    return -1 if visited[x-1][y-1] == 0 else visited[x-1][y-1]
 
-    return -1
+'''
+0: 벽 1: 길
+'''
