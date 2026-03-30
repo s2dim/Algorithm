@@ -1,10 +1,7 @@
-select d3.id
-from ecoli_data d3
-join (select d2.id
-      from ecoli_data d2
-      join (select *
-          from ecoli_data
-          where parent_id is null) d1 
-      on d2.parent_id = d1.id) d12
-on d3.parent_id = d12.id
-order by d3.id asc
+-- 코드를 작성해주세요
+select distinct t.id
+from ecoli_data f
+      join ecoli_data s on f.id = s.parent_id
+      join ecoli_data t on s.id = t.parent_id
+where f.parent_id is null
+order by t.id
