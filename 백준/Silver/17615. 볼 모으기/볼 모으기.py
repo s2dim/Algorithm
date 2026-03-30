@@ -1,44 +1,53 @@
+import sys
 
-from collections import Counter, deque
+n = int(sys.stdin.readline())
+color = list(map(str, sys.stdin.readline().strip()))
+
+min_ = int(1e9)
+cnt = 0
+temp = 0
+
+#오른쪽 보내기
+for i in range(n):
+    if color[i] == 'R':
+        temp += 1
+    if color[i] == 'B' and temp:
+        cnt += temp
+        temp = 0
+
+min_ = min(min_, cnt)
 
 cnt = 0
-n = int(input())
-color = input()
+temp = 0
+color.reverse()
+for i in range(n):
+    if color[i] == 'R':
+        temp += 1
+    if color[i] == 'B' and temp:
+        cnt += temp
+        temp = 0
 
-lst = []
-now = color[0]
+min_ = min(min_, cnt)
 
-for i in range(n+1):
-    if i == n:
-        lst.append((now, cnt))
-        break
+cnt = 0
+temp = 0
+for i in range(n):
+    if color[i] == 'B':
+        temp += 1
+    if color[i] == 'R' and temp:
+        cnt += temp
+        temp = 0
+min_ = min(min_, cnt)
 
-    if now == color[i]:
-        cnt += 1
-        continue
+color.reverse()
+cnt = 0
+temp = 0
+for i in range(n):
+    if color[i] == 'B':
+        temp += 1
+    if color[i] == 'R' and temp:
+        cnt += temp
+        temp = 0
+min_ = min(min_, cnt)
 
-    else:
-        lst.append((now, cnt))
-        now = color[i]
-        cnt = 1
-
-r = color.count('R')
-b = color.count('B')
-
-left_r = 0
-if lst[0][0] == 'R':
-    left_r = lst[0][1]
-
-right_r = 0
-if lst[-1][0] == 'R':
-    right_r = lst[-1][1]
-
-left_b = 0
-if lst[0][0] == 'B':
-    left_b = lst[0][1]
-
-right_b = 0
-if lst[-1][0] == 'B':
-    rifht_b = lst[-1][1]
-
-print(min(r - left_r, r - right_r, b - left_b, b - left_b))
+print(min_)
