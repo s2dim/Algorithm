@@ -1,8 +1,15 @@
 -- 코드를 입력하세요
-select distinct cart_id
+with milk as (
+select cart_id
 from cart_products
-where cart_id in (SELECT cart_id
-                from CART_PRODUCTS
-                where name in ('Milk')) and
-    name in ('Yogurt')
-order by cart_id
+where name = 'Milk'),
+
+yogurt as (
+select cart_id
+from cart_products
+where name = 'Yogurt')
+
+select m.cart_id
+from milk m join yogurt y on m.cart_id = y.cart_id
+group by m.cart_id
+order by m.cart_id
