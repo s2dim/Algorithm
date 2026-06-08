@@ -6,8 +6,6 @@ def solution(board):
     
     m = len(board) # 5
     n = len(board[0]) # 7
-    
-    
     arr = []
     visited = [[False] * n for _ in range(m)]
     
