@@ -1,60 +1,53 @@
-import math
 from collections import defaultdict
+import math
 
 def solution(fees, records):
     answer = []
-    dic = {}
-    cost = defaultdict(int)
-
-    def cal(time):
-        fee = 0
-        if time <= fees[0]:
-            fee += fees[1]
-        else:
-            fee += fees[1]
-            extra = time - fees[0]
-            extra = math.ceil(extra / fees[2])
-            fee += extra * fees[3]
-        return fee
-            
-    for i in records:
-        lst = i.split(' ')
-        hour, minute = map(int, lst[0].split(":"))
-        time = (hour * 60) + minute
-        number = lst[1]
-        state = lst[2]
+    stay = {}
+    fee = defaultdict(int)
+    
+    # 텍스트 파싱
+    for record in records:
+        time, number, state = record.split()
+        hour, minute = map(int, time.split(':'))
         
-        num_lst = list(cost.keys())
-
-
         if state == 'IN':
-            dic[number] = time
-            
-        elif state == 'OUT':
-            cost[number] += time - dic.get(number)
-            dic.pop(number)
-
-    for key, value in dic.items():
-        cost[key] += ((23 * 60) + 59) - value
+            stay[number] = (hour, minute)
+        if state == 'OUT':
+            # 머문 시간 계산
+            inhour, inminute = stay[number]
+            temp = (hour * 60) + minute - ((inhour * 60) + inminute)
+            fee[number] += temp
+            stay[number] = (-1, -1)
+    
+    
+    for key, value in stay.items():
+        if value != (-1, -1):
+            inhour, inminute = value
+            fee[key] += (23 * 60) + 59 - ((inhour * 60) + inminute)
+    temp2 = sorted(fee.items())
+    for i in temp2:  # fees = [기본 시간(분), 기본 요금, 단위 시간(분), 단위 요금]
+        number = i[0]
+        time = i[1]
         
-    for key, value in cost.items():
-        cost[key] = cal(value)
-    
-    cost_lst = sorted(cost.items())
-    
+        if time <= fees[0]:
+            answer.append(fees[1])
+        
+        else:
+            cal1 = time - fees[0]
+            cal2 = math.ceil(cal1 / fees[2])
+            answer.append(fees[1] + (cal2 * fees[3]))
         
     
-    
-    return [value for key, value in cost_lst]
-
+    return answer
 
 '''
 - 출차 내역이 없다면 23:59 출차
-- 누적 주차 시작이 기본 이하 -> 기본 요금 청구
-- 기본 시간 초과 -> 기본 요금 + 추가요금 (초과 단위시간(올림) * 단위 요금)
-- 차량번호가 작은 자동차부터 주차 요금 담아 완성
+- 차랑별 누적 주차 시간
+    1) 기본 시간 이하 : 기본 요금
+    2) 기본 시간 초과 : 기본 요금 + 초과 시간 * 단위 요금
+        초과분에 대해서는 올림
 
-fees [기본 시간(분), 기본 요금, 단위 시간, 단위 요금]
+- 차량 번호가 작은 자동차부터 출력
 
-{key:{(in, out)}}
 '''
