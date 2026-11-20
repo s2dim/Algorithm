@@ -1,20 +1,19 @@
 def solution(n, computers):
-    
+    answer = 0
     visited = [False] * n
-    cnt = 0
     
     for i in range(n):
         stack = []
         if not visited[i]:
             stack.append(i)
-            cnt += 1
-
+            answer += 1
+        
         while stack:
             s = stack.pop()
-            for i in range(n):
-                if (computers[s][i] == 1 and not visited[i]):
-                    stack.append(i)
-                    visited[i] = True
-    
         
-    return cnt
+            for j in range(len(computers[s])):
+                if computers[s][j] == 1 and not visited[j]:
+                    stack.append(j)
+                    visited[j] = True
+            
+    return answer
