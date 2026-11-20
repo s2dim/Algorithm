@@ -11,26 +11,26 @@ def solution(park, routes):
                 now = [i, j]
                 break
     
-    dx = [-1, 1, 0, 0] # N S W E
+    dx = [-1, 1, 0, 0] # W E N S
     dy = [0, 0, -1, 1]
     
     for i in routes:
         direction, move = i.split(' ')
         temp = now # 이동 취소를 위해 저장
-        for m in range(int(move)):
-            if direction == 'N':
+        for m in move:
+            if direction == 'W':
                 nx = dx[0] + now[0]
                 ny = dy[0] + now[1]
 
-            elif direction == 'S':
+            elif direction == 'E':
                 nx = dx[1] + now[0]
                 ny = dy[1] + now[1]
 
-            elif direction == 'W':
+            elif direction == 'N':
                 nx = dx[2] + now[0]
                 ny = dy[2] + now[1]
 
-            elif direction == 'E':
+            elif direction == 'S':
                 nx = dx[3] + now[0]
                 ny = dy[3] + now[1]
 
@@ -39,7 +39,6 @@ def solution(park, routes):
                 break
             else:
                 now = [nx, ny]
-        
 
     
     return now
